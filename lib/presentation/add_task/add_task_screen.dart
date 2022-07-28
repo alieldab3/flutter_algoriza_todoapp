@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -131,6 +132,47 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             backgroundColor: Colors.green,
           ),
         );
+
+        late TimeOfDay startReminder;
+        if (selectedRemind == remindItems[0]) {
+          //10 Min Before
+          startReminder = TimeOfDay.fromDateTime(
+            DateTime(1969, 1, 1, selectedStartTime.hour,
+                    selectedStartTime.minute)
+                .subtract(
+              const Duration(minutes: 10),
+            ),
+          );
+        } else if (selectedRemind == remindItems[1]) {
+          //30 Min Before
+          startReminder = TimeOfDay.fromDateTime(
+            DateTime(1969, 1, 1, selectedStartTime.hour,
+                    selectedStartTime.minute)
+                .subtract(
+              const Duration(minutes: 30),
+            ),
+          );
+        } else if (selectedRemind == remindItems[2]) {
+          //1 Hour Before
+          startReminder = TimeOfDay.fromDateTime(
+            DateTime(1969, 1, 1, selectedStartTime.hour,
+                    selectedStartTime.minute)
+                .subtract(
+              const Duration(hours: 1),
+            ),
+          );
+        } else if (selectedRemind == remindItems[3]) {
+          //1 Day Before
+          startReminder = TimeOfDay.fromDateTime(
+            DateTime(1969, 1, 1, selectedStartTime.hour,
+                    selectedStartTime.minute)
+                .subtract(
+              const Duration(days: 1),
+            ),
+          );
+        }
+        FlutterAlarmClock.createAlarm(startReminder.hour, startReminder.minute,
+            title: selectedTitle);
         _titleController.text = '';
       });
     } catch (error) {
